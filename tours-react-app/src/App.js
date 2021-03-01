@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from "react";
 import './App.css';
 import Loading from './Loading';
-import Tours from './Tours';
+import Tours from './Tours'
+
 
 
 const url = 'https://course-api.com/react-tours-project'
@@ -12,6 +13,17 @@ function App() {
 
 //state to store the tours
  const [tours, setTours] = useState([]);
+
+
+
+
+ //we will look at the id
+ //if the filter id dosnt match remove it
+ //and dont put it in the new array
+ const removeTour = (id) => {
+  const newTours = tours.filter((tour) => tour.id !== id)
+  setTours(newTours)
+}
 
 
 //fetching the data
@@ -74,10 +86,23 @@ useEffect(() => {
     </main>
     );
  }
+
+ if(tours.length === 0){
+   return <main>
+     <div className="title">
+       <h2>No More Tours Left</h2>
+       <button onClick={fetchTours}></button>
+     </div>
+     <button className="submitButton" onClick={fetchTours}>Refresh</button>
+   </main>
+ }
+
  //else
   return (
     <main>
-      <Tours/>
+
+    <Tours tours={tours} removeTour={removeTour}/>
+     
 
     </main>
     
